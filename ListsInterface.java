@@ -4,6 +4,8 @@
  * Movie database
  */
 
+package foxtrot;
+
 public interface ListsInterface {
     // Adds new movie to this list
     void add(movie u);
