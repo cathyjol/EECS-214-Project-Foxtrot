@@ -4,10 +4,12 @@
  * Movie database
  */
 
+package foxtrot;
+
 // Node class to create movie database and genres lists
-public class node {
+public class node<T> {
     private node link;
-    private T info;
+    public T info;
     
     public node(T info) {
         this.info = info;
@@ -31,7 +33,8 @@ public class node {
     }
 
     // Returns link of this node
-    public node getLink() {
+    public node<T> getLink() {
         return link;
     }
 }
+
