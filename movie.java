@@ -4,22 +4,34 @@
  * Movie database
  */
 
-public class movie implements MovieInterface {
+package foxtrot;
+
+public class movie {
     public String title; // Title of the movie
-    public float rating; // Review-averaged rating
-    public int numRatings; // Number of times movie has been reviewed by users
-    public String genreList[3]; // List (maximum of 3) of movie's genres
+    public double rating; // Review-averaged rating
+    public int numReviews; // Number of times movie has been reviewed by users
+    public String[] genreList; // List (maximum of 3) of movie's genres
     
     // Constructor method
-    public movie {
+    public movie(String t, int r) {
         title = null;
-        rating = 0.0;
-        numRatings = 0;
+        rating = r;
+        numReviews = 1;
+        genreList = new String[3];
     }
     
     
     // Returns string of movie (includes title, genre, rating and # reviews)
-    public String toString();
+    @Override public String toString() {
+        String genreString = null;
+        for(int i = 0; i < 3; i++) {
+            genreString = genreString + "     " + this.genreList[i] + "\n";
+        }
+        String output = this.title + "\n"
+                        + genreString
+                        + this.rating + " (Reviewed by " + this.numReviews + " users)\n";
+        return output;
+    }
     
     // Iterates through movie's array of genres
     // and adds reference to itself within appropriate genres
@@ -33,12 +45,14 @@ public class movie implements MovieInterface {
     }
     
     public void setRating(int rating) {
-        // 
+        /* 
+         *
+         */
     }
     
     // Iterates through list of movies within a genre to compare this movie's rating,
     // such that its ranking can be determined relative to other movie's average ratings
-    public int compareTo(movie opponent) {
+    public int compareToRank(movie opponent) {
         /*
          * If this.rating > opponent.rating, position this movie before opponent in list
          * If this.rating < opponent.rating, position this movie after opponent in list
