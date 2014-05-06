@@ -4,6 +4,8 @@
  * Movie database
  */
 
+package foxtrot;
+
 public interface GenresInterface extends ListsInterface {
     // Sets position to zero for iteration through genre list,
     // such that each visit to the genre will begin with its most higly rated movie
