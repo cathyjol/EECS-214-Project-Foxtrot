@@ -4,6 +4,8 @@
  * Movie database
  */
 
+package foxtrot;
+
 /*
  * Will be limited number of pre-determined genres,
  * each referencing movies within unsorted list of movies in database
@@ -22,6 +24,24 @@ public class genres implements GenresInterface {
     
     // Adds new movie to this list by iterating through list and invoking .compareTo() method
     // to determing where to position new movie within genre list
-    void add(movie u);
+    @Override public void add(movie u) {
+        
+    }
     
+    @Override public boolean contains(movie u) {
+        return false;
+    }
+    
+    @Override public void reset() {
+        
+    }
+
+    /* Preconditions: The list is not empty
+     *                The list has been reset
+     * Returns the element at the top position on genre list
+     * If user does not want to watch this movie, returns next-highest rated movie
+     */
+    @Override public movie getSuggestion() {
+        return topRanked.info;
+    }
 }
