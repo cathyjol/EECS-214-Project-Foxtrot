@@ -48,6 +48,7 @@ public class movie {
         /* 
          *
          */
+         this.rating = rating;
     }
     
     // Iterates through list of movies within a genre to compare this movie's rating,
