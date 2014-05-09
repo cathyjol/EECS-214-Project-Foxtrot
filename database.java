@@ -22,4 +22,8 @@ public class database implements ListsInterface {
         return false;
     }
     
+    @Override public void search(movie u) {
+     
+    }
+    
 }
