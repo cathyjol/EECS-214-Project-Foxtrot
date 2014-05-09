@@ -23,7 +23,10 @@ public class database implements ListsInterface {
     }
     
     @Override public void search(movie u) {
-     
+    /*
+     * We need a case here that will check our movie results that are close to what you searched.
+     */
+    
     }
     
 }
