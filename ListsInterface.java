@@ -13,4 +13,6 @@ public interface ListsInterface {
     // Returns true if this list contains a movie u, such that
     // movie.equals(u); otherwise returns false
     boolean contains(movie u);
+    
+    void search(movie u);
 }
