@@ -14,8 +14,7 @@ public class userProfile {
     
     public userProfile (String name) {
         username = name;
-        reviews = null;
-        mostRecentlyWatched = null;
+        mostRecentlyWatched = null; // Beginning of reviews list
         numReviews = 0;
     }
     
