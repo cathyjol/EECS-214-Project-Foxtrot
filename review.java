@@ -4,8 +4,6 @@
  * Movie database
  */
 
-//lets see if i can edit yay -paul
-
 package foxtrot;
 
 public class review {
