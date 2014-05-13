@@ -12,7 +12,7 @@ public class review {
     public String[] genreList; // List (maximum of 3) of movie's genres
     public userProfile critic;
     private int recommends;
-    protected node location; // Node containing movie reviewed, if already in database
+    protected Movie location; // Node containing movie reviewed, if already in database
     
     public review(String u, userProfile edit) {
         title = u;
