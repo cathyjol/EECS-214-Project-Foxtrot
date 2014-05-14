@@ -7,17 +7,19 @@
 package foxtrot;
 
 public class userProfile {
-    private final String username; // Name of user
+    public final String username; // Name of user
+    private String password;
     public node reviews; // First review created by user
     public node mostRecentlyWatched; // Last movie reviewed by user
     public int numReviews; // Number of reviews created by user
     
-    public userProfile (String name) {
+    public userProfile (String name, String pword) {
         username = name;
+        password = pword;
         mostRecentlyWatched = null; // Beginning of reviews list
         numReviews = 0;
     }
-    
+    public String getUsername(){return username;}
     // Creates link within profile to new movie review created by user
     public void newReview(String title) {
         /*
