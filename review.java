@@ -14,32 +14,24 @@ public class review {
     private int recommends;
     protected Movie location; // Node containing movie reviewed, if already in database
     
-    public review(String u, userProfile edit) {
+    public review(userProfile critic, String title, int rating, String genre1, String genre2, String genre3, int recommendation) {
         title = u;
         critic = edit;
         genreList = new String[3];
+        genreList[0] = genre1;
+        genreList[1] = genre2;
+        genreList[2] = genre3;
+        recommends = recommendation;
     }
-    
-    // Sets review rating
-    public void setRating(int rate) {
-        rating = rate;
-    }
-    
+
     // Gets review rating
     public int getRating() {
         return rating;
     }
     
-    // Sets review genres
-    public void setGenres(String first, String second, String third) {
-        genreList[0] = first;
-        genreList[1] = second;
-        genreList[2] = third;
-    }
-
-    // Sets review recommendation
-    public void setRecommends(int ok) {
-        recommends = ok;
+    // Gets review genre
+    public String getGenre(int index) {
+        return genreList[index];
     }
     
     // Gets review recommendation
