@@ -1,0 +1,40 @@
+// LLNode for database
+
+package Foxtrot;
+
+
+public class LLNode
+{
+  private LLNode link;
+  private movie info;
+  
+  public LLNode(movie info)
+  {
+    this.info = info;
+    link = null;
+  }
+ 
+  public void setInfo(movie info)
+  // Sets info of this LLNode.
+  {
+    this.info = info;
+  }
+
+  public movie getInfo()
+  // Returns info of this LLONode.
+  {
+    return info;
+  }
+ 
+  public void setLink(LLNode link)
+  // Sets link of this LLNode.
+  {
+    this.link = link;
+  }
+
+  public LLNode getLink()
+  // Returns link of this LLNode.
+  {
+    return link;
+  }
+}
