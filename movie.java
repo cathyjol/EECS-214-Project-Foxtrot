@@ -63,6 +63,10 @@ public class movie {
         /* 
          *
          */
+         if(rating > 5)
+            rating = 5;
+         else if(rating < 0)
+            rating = 0;
          this.rating = (this.rating * numReviews + rating) / (numReviews + 1);
          numReviews += 1;
     }
