@@ -16,4 +16,5 @@ public interface GenresInterface extends ListsInterface {
     // Returns the element at the top position on genre list
     // If user does not want to watch this movie, returns next-highest rated movie
     movie getSuggestion();
+    movie getNext();
 }
