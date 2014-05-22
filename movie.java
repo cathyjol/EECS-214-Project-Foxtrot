@@ -3,7 +3,7 @@
  * EECS 214 Project Foxtrot
  * Movie database
  */
-package finalproject;
+package Foxtrot;
 
 public class movie {
     public String title; // Title of the movie
