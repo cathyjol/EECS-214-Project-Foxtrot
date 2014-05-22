@@ -1,8 +1,12 @@
-// LLNode for database
+/*
+ * Classes
+ * EECS 214 Project Foxtrot
+ * Movie database
+ */
 
 package foxtrot;
 
-
+// LLNode class to create movie database and genres lists
 public class LLNode
 {
   private LLNode link;
