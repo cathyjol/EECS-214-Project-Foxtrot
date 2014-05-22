@@ -1,6 +1,6 @@
 // LLNode for database
 
-package Foxtrot;
+package foxtrot;
 
 
 public class LLNode
