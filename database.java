@@ -4,7 +4,7 @@
  * Movie database
  */
 
-package Foxtrot;
+package foxtrot;
 
 
 // Sorted by movie title, from a to z ignoring case.
