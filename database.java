@@ -4,7 +4,7 @@
  * Movie database
  */
 
-package finalproject;
+package Foxtrot;
 
 
 // Sorted by movie title, from a to z ignoring case.
