@@ -1,22 +1,26 @@
 /*
- * Classes
- * EECS 214 Project Foxtrot
- * Movie database
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-package foxtrot;
+package UserProfile;
 
+/**
+ *
+ * @author Boochi
+ */
 public class review {
     public String title; // Title of the movie
     private int rating; // User rating
     public String[] genreList; // List (maximum of 3) of movie's genres
-    public userProfile critic;
+    public profile critic;
     private int recommends;
-    protected Movie location; // Node containing movie reviewed, if already in database
+    //protected Movie location; // Node containing movie reviewed, if already in database
     
-    public review(userProfile critic, String title, int rating, String genre1, String genre2, String genre3, int recommendation) {
-        title = u;
-        critic = edit;
+    public review(profile critic, String title, int rating, String genre1, String genre2, String genre3, int recommendation) {
+        this.title = title;
+        this.critic = critic;
         genreList = new String[3];
         genreList[0] = genre1;
         genreList[1] = genre2;
