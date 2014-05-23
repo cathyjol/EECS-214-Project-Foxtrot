@@ -5,7 +5,11 @@
  */
 
 package UserProfile;
+import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
 /**
  *
  * @author Boochi
@@ -15,13 +19,66 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
     /**
      * Creates new form MovieDatabaseGUI
      */
-    profile currentUser;
+    
+   
+    profile defaultUser = new profile("test","test");
+    profile currentUser = defaultUser;
+    
     ArrayList<profile> users = new ArrayList();
+    
     public MovieDatabaseGUI() {
+        
         initComponents();
+        
+        //Loading Users
+        try {
+            Scanner line = new Scanner(new File("users.txt"));
+            while (line.hasNext()){
+            String userName = line.next();
+            String passWord = line.next();
+            profile oldUser = new profile(userName, passWord);
+            users.add(oldUser);
+            }
+        line.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MovieDatabaseGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Loading Reviews
+//        try {
+//            Scanner line2 = new Scanner(new File("reviews.txt"));
+//            int counter = 0;
+//            while (line2.hasNext()){
+//            String first_Line = line2.next();
+//            System.out.println(first_Line);
+//            String second_Line = line2.next();
+//            System.out.println(second_Line);
+//            String third_Line = line2.next();
+//            System.out.println(third_Line);
+//            String fourth_Line = line2.next();
+//            System.out.println(fourth_Line);
+//            String fifth_Line = line2.next();
+//            System.out.println(fifth_Line);
+//            String sixth_Line = line2.next();
+//            System.out.println(sixth_Line);
+//            System.out.println(counter);
+//            counter++;
+//            }
+//        line2.close();
+//            
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(MovieDatabaseGUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        users.add(defaultUser);
+        
         ReviewPanel.setVisible(false);
         NewUserPanel.setVisible(false);
         InvalidLoginLabel.setVisible(false);
+        Genre2Spinner.setVisible(false);
+        Genre3Spinner.setVisible(false);
+        
     }
     private profile hasUser(String username)
     {
@@ -51,10 +108,34 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
         NewUserButton = new javax.swing.JButton();
         InvalidLoginLabel = new javax.swing.JLabel();
         ReviewPanel = new javax.swing.JPanel();
-        SubmitButton = new javax.swing.JButton();
+        LogoutButton = new javax.swing.JButton();
         MovieTitleTextField = new javax.swing.JTextField();
         MovieTitleLabel = new javax.swing.JLabel();
         FeedbackLabel = new javax.swing.JLabel();
+        RatingLabel = new javax.swing.JLabel();
+        RatingSlider = new javax.swing.JSlider();
+        String[] genrelist = {"Action","Adventure","Animation","Comedy","Crime","Documentary","Drama", "Family","Fantasy","Film-Noir","History","Horror","Music","Musical","Mystery","Romance","Sci-Fi","Sport","Thriller","War","Western"};
+        SpinnerListModel genremodel = new SpinnerListModel(genrelist);
+        Genre1Spinner = new javax.swing.JSpinner(genremodel);
+        //String[] genrelist = {"Action","Adventure","Animation","Comedy","Crime","Documentary","Drama", "Family","Fantasy","Film-Noir","History","Horror","Music","Musical","Mystery","Romance","Sci-Fi","Sport","Thriller","War","Western"};
+        SpinnerListModel genremodel2 = new SpinnerListModel(genrelist);
+        Genre2Spinner = new javax.swing.JSpinner(genremodel2);
+        //String[] genrelist = {"Action","Adventure","Animation","Comedy","Crime","Documentary","Drama", "Family","Fantasy","Film-Noir","History","Horror","Music","Musical","Mystery","Romance","Sci-Fi","Sport","Thriller","War","Western"};
+        SpinnerListModel genremodel3 = new SpinnerListModel(genrelist);
+        Genre3Spinner = new javax.swing.JSpinner(genremodel3);
+        SpinnerModel model =
+        new SpinnerNumberModel(1, //initial value
+            1, //min
+            3, //max
+            1);
+        NumGenresSpinner = new javax.swing.JSpinner(model);
+        NumGenresLabel = new javax.swing.JLabel();
+        ChooseGenresLabel = new javax.swing.JLabel();
+        ReccomendLabel = new javax.swing.JLabel();
+        RecommendYesCheckBox = new javax.swing.JCheckBox();
+        RecommendNoCheckBox = new javax.swing.JCheckBox();
+        SubmitButton1 = new javax.swing.JButton();
+        CurrentUserLabel = new javax.swing.JLabel();
         NewUserPanel = new javax.swing.JPanel();
         NewProfileLabel = new javax.swing.JLabel();
         NewUsernameLabel = new javax.swing.JLabel();
@@ -64,17 +145,18 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
         CreateProfileButton = new javax.swing.JButton();
         PasswordLabel2 = new javax.swing.JLabel();
         NewPasswordField2 = new javax.swing.JPasswordField();
+        ProfileErrorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MovieDatabase");
+        getContentPane().setLayout(new java.awt.CardLayout());
 
+        LoginTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         LoginTitleLabel.setText("LOGIN");
 
         LoginUsernameLabel.setText("Username");
 
         LoginPasswordLabel.setText("Password");
-
-        LoginPasswordTextField.setText("jPasswordField1");
 
         LoginButton.setText("Login");
         LoginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -96,63 +178,109 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
         LoginPanel.setLayout(LoginPanelLayout);
         LoginPanelLayout.setHorizontalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginPanelLayout.createSequentialGroup()
+                .addGap(0, 145, Short.MAX_VALUE)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoginPasswordLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(LoginUsernameLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(122, 122, 122)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoginUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LoginPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(150, 150, 150))
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(LoginPasswordLabel)
-                            .addComponent(LoginUsernameLabel))
-                        .addGap(102, 102, 102)
-                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(LoginPasswordTextField)
-                            .addComponent(LoginUsernameTextField)))
+                        .addGap(195, 195, 195)
+                        .addComponent(LoginButton)
+                        .addGap(56, 56, 56)
+                        .addComponent(NewUserButton))
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(131, 131, 131)
-                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(InvalidLoginLabel)
-                            .addGroup(LoginPanelLayout.createSequentialGroup()
-                                .addComponent(LoginButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(NewUserButton))))
+                        .addGap(203, 203, 203)
+                        .addComponent(InvalidLoginLabel))
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(184, 184, 184)
+                        .addGap(247, 247, 247)
                         .addComponent(LoginTitleLabel)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        LoginPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {LoginPasswordTextField, LoginUsernameTextField});
+
         LoginPanelLayout.setVerticalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addComponent(LoginTitleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LoginUsernameLabel)
-                    .addComponent(LoginUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LoginPasswordLabel)
-                    .addComponent(LoginPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LoginUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LoginUsernameLabel))
+                .addGap(26, 26, 26)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LoginPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LoginPasswordLabel))
+                .addGap(18, 18, 18)
                 .addComponent(InvalidLoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(18, 18, 18)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LoginButton)
                     .addComponent(NewUserButton))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
 
-        SubmitButton.setText("Submit!");
-        SubmitButton.addActionListener(new java.awt.event.ActionListener() {
+        getContentPane().add(LoginPanel, "card2");
+
+        LogoutButton.setText("Logout");
+        LogoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubmitButtonActionPerformed(evt);
+                LogoutButtonActionPerformed(evt);
             }
         });
-
-        MovieTitleTextField.setText("asdfasf");
 
         MovieTitleLabel.setText("Movie Title");
 
         FeedbackLabel.setText("Shit goes here....");
+
+        RatingLabel.setText("Rating (Out of 5)");
+
+        RatingSlider.setMajorTickSpacing(1);
+        RatingSlider.setMaximum(5);
+        RatingSlider.setPaintLabels(true);
+        RatingSlider.setPaintTicks(true);
+
+        NumGenresSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                NumGenresSpinnerStateChanged(evt);
+            }
+        });
+
+        NumGenresLabel.setText("Number of Movie Genres");
+
+        ChooseGenresLabel.setText("Choose Genres:");
+
+        ReccomendLabel.setText("Recommend?");
+
+        RecommendYesCheckBox.setSelected(true);
+        RecommendYesCheckBox.setText("Yes!");
+        RecommendYesCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecommendYesCheckBoxActionPerformed(evt);
+            }
+        });
+
+        RecommendNoCheckBox.setText("No!");
+        RecommendNoCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecommendNoCheckBoxActionPerformed(evt);
+            }
+        });
+
+        SubmitButton1.setText("Submit!");
+        SubmitButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubmitButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ReviewPanelLayout = new javax.swing.GroupLayout(ReviewPanel);
         ReviewPanel.setLayout(ReviewPanelLayout);
@@ -161,43 +289,108 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
             .addGroup(ReviewPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(FeedbackLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addComponent(FeedbackLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ReviewPanelLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(MovieTitleLabel)
-                        .addGap(30, 30, 30)
-                        .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(MovieTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SubmitButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                        .addGap(44, 44, 44)
+                                        .addComponent(MovieTitleLabel))
+                                    .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                        .addGap(11, 11, 11)
+                                        .addComponent(NumGenresLabel)))
+                                .addGap(47, 47, 47)
+                                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(NumGenresSpinner, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(RatingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(CurrentUserLabel))
+                                    .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                        .addGap(79, 79, 79)
+                                        .addComponent(Genre2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(33, 33, 33)
+                                        .addComponent(Genre3Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(MovieTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                .addComponent(SubmitButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(171, 171, 171)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(ReviewPanelLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RatingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ReviewPanelLayout.createSequentialGroup()
+                        .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                .addComponent(ChooseGenresLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Genre1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ReviewPanelLayout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(ReccomendLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(RecommendYesCheckBox)))
+                        .addGap(62, 62, 62)
+                        .addComponent(RecommendNoCheckBox)))
+                .addGap(0, 236, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReviewPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogoutButton)
+                .addGap(41, 41, 41))
         );
 
-        ReviewPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MovieTitleTextField, SubmitButton});
+        ReviewPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Genre1Spinner, Genre2Spinner, Genre3Spinner});
 
         ReviewPanelLayout.setVerticalGroup(
             ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReviewPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(21, 21, 21)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LogoutButton)
+                    .addComponent(CurrentUserLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MovieTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(ReviewPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(MovieTitleLabel)))
-                .addGap(18, 18, 18)
-                .addComponent(SubmitButton)
+                    .addComponent(MovieTitleLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RatingLabel)
+                    .addComponent(RatingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NumGenresSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NumGenresLabel))
+                .addGap(26, 26, 26)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Genre1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Genre2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Genre3Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ChooseGenresLabel))
+                .addGap(29, 29, 29)
+                .addGroup(ReviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ReccomendLabel)
+                    .addComponent(RecommendYesCheckBox)
+                    .addComponent(RecommendNoCheckBox))
+                .addGap(38, 38, 38)
+                .addComponent(SubmitButton1)
+                .addGap(18, 18, 18)
                 .addComponent(FeedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(520, Short.MAX_VALUE))
+                .addGap(51, 51, 51))
         );
 
+        Genre2Spinner.setVisible(false);
+        Genre3Spinner.setVisible(false);
+
+        getContentPane().add(ReviewPanel, "card3");
+
+        NewProfileLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         NewProfileLabel.setText("Create a Profile!");
 
         NewUsernameLabel.setText("Username");
 
         PasswordLabel1.setText("Password");
-
-        NewPasswordField1.setText("jPasswordField1");
 
         CreateProfileButton.setText("Create Profile");
         CreateProfileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -208,99 +401,87 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
 
         PasswordLabel2.setText("Retype Password");
 
-        NewPasswordField2.setText("jPasswordField1");
-
         javax.swing.GroupLayout NewUserPanelLayout = new javax.swing.GroupLayout(NewUserPanel);
         NewUserPanel.setLayout(NewUserPanelLayout);
         NewUserPanelLayout.setHorizontalGroup(
             NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NewUserPanelLayout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addGap(109, 109, 109)
+                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PasswordLabel1)
+                    .addComponent(NewUsernameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(NewPasswordField1)
+                    .addComponent(NewUsernameTextField))
+                .addGap(121, 121, 121))
+            .addGroup(NewUserPanelLayout.createSequentialGroup()
                 .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NewUserPanelLayout.createSequentialGroup()
-                        .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(NewUserPanelLayout.createSequentialGroup()
+                        .addGap(205, 205, 205)
+                        .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CreateProfileButton)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, NewUserPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(NewProfileLabel)))
-                        .addGap(160, 160, 160))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NewUserPanelLayout.createSequentialGroup()
-                        .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(PasswordLabel1)
-                            .addComponent(NewUsernameLabel)
-                            .addComponent(PasswordLabel2))
-                        .addGap(102, 102, 102)
-                        .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(NewPasswordField1)
-                            .addComponent(NewUsernameTextField)
-                            .addComponent(NewPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50))))
+                            .addComponent(NewProfileLabel)))
+                    .addGroup(NewUserPanelLayout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(PasswordLabel2)
+                        .addGap(138, 138, 138)
+                        .addComponent(NewPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(NewUserPanelLayout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(ProfileErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
+
+        NewUserPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {NewPasswordField1, NewPasswordField2, NewUsernameTextField});
+
         NewUserPanelLayout.setVerticalGroup(
             NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NewUserPanelLayout.createSequentialGroup()
                 .addComponent(NewProfileLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NewUsernameLabel)
-                    .addComponent(NewUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NewUsernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewUsernameLabel))
+                .addGap(25, 25, 25)
+                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PasswordLabel1)
                     .addComponent(NewPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NewPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PasswordLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(NewUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PasswordLabel2)
-                    .addComponent(NewPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addComponent(CreateProfileButton)
-                .addContainerGap(83, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(LoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ReviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NewUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {LoginPanel, ReviewPanel});
-
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(NewUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProfileErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ReviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                .addComponent(CreateProfileButton)
+                .addContainerGap(259, Short.MAX_VALUE))
         );
+
+        getContentPane().add(NewUserPanel, "card4");
 
         pack();
     }// </editor-fold>                        
 
-    private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void LogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         //String feedback = "Review for " + "\"" + MovieTitleTextField.getText() + "\" submitted by " + UsernameTextField.getText();
-        FeedbackLabel.setText("Review Submitted");
+        currentUser = null;
+        ReviewPanel.setVisible(false);
+        LoginPanel.setVisible(true);
+        LoginUsernameTextField.setText("");
+        LoginPasswordTextField.setText("");
     }                                            
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
         String entered = LoginUsernameTextField.getText();
-        if(hasUser(entered) != null) //&& hasUser(entered).getPassword().equals(LoginPasswordTextField.getText()))
+        if(hasUser(entered) != null && hasUser(entered).getPassword().equals(LoginPasswordTextField.getText()))
         {
             LoginPanel.setVisible(false);
             ReviewPanel.setVisible(true);
             currentUser = hasUser(entered);
+            CurrentUserLabel.setText("Logged in as: "+ currentUser.getUsername());
         }
         else
         {
@@ -310,17 +491,106 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
 
     private void CreateProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         // TODO add your handling code here:
-        profile newuser = new profile(NewUsernameTextField.getText(), NewPasswordField1.getText());
-        users.add(newuser);
-        NewUserPanel.setVisible(false);
-        LoginPanel.setVisible(true);
+        if(hasUser(NewUsernameTextField.getText()) != null)
+        {
+            ProfileErrorLabel.setText("The Username you entered already exists!");
+        }
+        else if(NewPasswordField1.getText().equals(NewPasswordField2.getText()))
+        {
+            profile newuser = new profile(NewUsernameTextField.getText(), NewPasswordField1.getText());
+            users.add(newuser); 
+            
+            //This part writes out to a text file called "users.txt"
+            //The username and password are two different lines
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("users.txt", true)))) {
+                 out.println(newuser.username);
+                 out.println(newuser.getPassword());
+            }catch (IOException e) {
+            //exception handling left as an exercise for the reader
+            }
+            NewUserPanel.setVisible(false);
+            LoginPanel.setVisible(true);
+            LoginUsernameTextField.setText("");
+            LoginPasswordTextField.setText("");
+        }
+        else
+            ProfileErrorLabel.setText("Mismatched Passwords! Please retype passwords.");
     }                                                   
 
     private void NewUserButtonActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         LoginPanel.setVisible(false);
         NewUserPanel.setVisible(true);
-  
+        NewUsernameTextField.setText("");
+        NewPasswordField1.setText("");
+        NewPasswordField2.setText("");
+    }                                             
+
+    private void NumGenresSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {                                              
+        
+        int numGenres = (int)NumGenresSpinner.getValue();
+        
+        switch(numGenres)
+        {
+            case 2:
+                Genre1Spinner.setVisible(true);
+                Genre2Spinner.setVisible(true);
+                Genre3Spinner.setVisible(false);
+                break;
+            case 3:
+                Genre1Spinner.setVisible(true);
+                Genre2Spinner.setVisible(true);
+                Genre3Spinner.setVisible(true);
+                break;
+            default:
+                Genre1Spinner.setVisible(true);
+                Genre2Spinner.setVisible(false);
+                Genre3Spinner.setVisible(false);
+                break;
+        }
+    }                                             
+
+    private void RecommendYesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        if(RecommendYesCheckBox.isSelected())
+            RecommendNoCheckBox.setSelected(false);
+    }                                                    
+
+    private void RecommendNoCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+        if(RecommendNoCheckBox.isSelected())
+            RecommendYesCheckBox.setSelected(false);        // TODO add your handling code here:
+    }                                                   
+
+    private void SubmitButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        
+            //This part writes out to a text file called "reviews.txt"
+            // Each value is a separate line
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("reviews.txt", true)))) {
+            out.println(currentUser.getUsername());
+            out.println(MovieTitleTextField.getText());
+            out.println(RatingSlider.getValue()); //This is to figure out how many ratings
+            out.println((String)Genre1Spinner.getValue());
+            out.println((String)Genre2Spinner.getValue()); //Will print first Genre again if 2nd doesn't exist
+            out.println((String)Genre3Spinner.getValue()); //Will print first Genre again if 3rd doesn't exist
+
+            }catch (IOException e) {
+            }
+        FeedbackLabel.setText("Review Submitted for \""+ MovieTitleTextField.getText()+"\" " + "by "+ currentUser.getUsername());     
+        review myReview;
+        int selected;
+        if( RecommendYesCheckBox.isSelected())
+            selected = 1;
+        else
+            selected = 0;
+        
+        if((int)NumGenresSpinner.getValue() ==1)
+            myReview = new review(currentUser,MovieTitleTextField.getText(),RatingSlider.getValue(),(String)Genre1Spinner.getValue(), "","", selected);
+        else if ((int)NumGenresSpinner.getValue() ==2)
+            myReview = new review(currentUser,MovieTitleTextField.getText(),RatingSlider.getValue(),(String)Genre1Spinner.getValue(), (String)Genre2Spinner.getValue(),"", selected);
+        else
+            myReview = new review(currentUser,MovieTitleTextField.getText(),RatingSlider.getValue(),(String)Genre1Spinner.getValue(), (String)Genre2Spinner.getValue(),(String)Genre3Spinner.getValue(), selected);
+
+    
+
     }                                             
 
     /**
@@ -356,11 +626,17 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
                 new MovieDatabaseGUI().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify                     
+    private javax.swing.JLabel ChooseGenresLabel;
     private javax.swing.JButton CreateProfileButton;
+    private javax.swing.JLabel CurrentUserLabel;
     private javax.swing.JLabel FeedbackLabel;
+    private javax.swing.JSpinner Genre1Spinner;
+    private javax.swing.JSpinner Genre2Spinner;
+    private javax.swing.JSpinner Genre3Spinner;
     private javax.swing.JLabel InvalidLoginLabel;
     private javax.swing.JButton LoginButton;
     private javax.swing.JPanel LoginPanel;
@@ -369,6 +645,7 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
     private javax.swing.JLabel LoginTitleLabel;
     private javax.swing.JLabel LoginUsernameLabel;
     private javax.swing.JTextField LoginUsernameTextField;
+    private javax.swing.JButton LogoutButton;
     private javax.swing.JLabel MovieTitleLabel;
     private javax.swing.JTextField MovieTitleTextField;
     private javax.swing.JPasswordField NewPasswordField1;
@@ -378,9 +655,17 @@ public class MovieDatabaseGUI extends javax.swing.JFrame {
     private javax.swing.JPanel NewUserPanel;
     private javax.swing.JLabel NewUsernameLabel;
     private javax.swing.JTextField NewUsernameTextField;
+    private javax.swing.JLabel NumGenresLabel;
+    private javax.swing.JSpinner NumGenresSpinner;
     private javax.swing.JLabel PasswordLabel1;
     private javax.swing.JLabel PasswordLabel2;
+    private javax.swing.JLabel ProfileErrorLabel;
+    private javax.swing.JLabel RatingLabel;
+    private javax.swing.JSlider RatingSlider;
+    private javax.swing.JLabel ReccomendLabel;
+    private javax.swing.JCheckBox RecommendNoCheckBox;
+    private javax.swing.JCheckBox RecommendYesCheckBox;
     private javax.swing.JPanel ReviewPanel;
-    private javax.swing.JButton SubmitButton;
+    private javax.swing.JButton SubmitButton1;
     // End of variables declaration                   
 }
