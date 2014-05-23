@@ -1,25 +1,31 @@
 /*
- * Classes
- * EECS 214 Project Foxtrot
- * Movie database
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-package foxtrot;
+package UserProfile;
 
-public class userProfile {
-    public final String username; // Name of user
+/**
+ *
+ * @author Boochi
+ */
+public class profile {
+    public String username; // Name of user
     private String password;
     public node reviews; // First review created by user
     public node mostRecentlyWatched; // Last movie reviewed by user
     public int numReviews; // Number of reviews created by user
     
-    public userProfile (String name, String pword) {
+    public profile (String name, String pword) {
         username = name;
         password = pword;
-        mostRecentlyWatched = null; // Beginning of reviews list
+        reviews = null;
+        mostRecentlyWatched = null;
         numReviews = 0;
     }
     public String getUsername(){return username;}
+    protected String getPassword(){return password;}
     // Creates link within profile to new movie review created by user
     public void newReview(String title) {
         /*
@@ -38,3 +44,4 @@ public class userProfile {
          */
     }
 }
+
