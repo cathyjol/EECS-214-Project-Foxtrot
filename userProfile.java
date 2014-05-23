@@ -16,6 +16,8 @@ public class profile {
     public node reviews; // First review created by user
     public node mostRecentlyWatched; // Last movie reviewed by user
     public int numReviews; // Number of reviews created by user
+    //private LLNode profile UsersSimilar; //First user with likes similar to mine.
+    //public LLNode RecomendedMovies; // First of the list of movies that I should watch due to recommend
     
     public profile (String name, String pword) {
         username = name;
