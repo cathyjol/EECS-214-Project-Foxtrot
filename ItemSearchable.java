@@ -1,16 +1,4 @@
-/**
 
- * Implementation of the Searchable interface that searches a List of String objects. 
-
- * This implementation searches only the beginning of the words, and is not be optimized
-
- * for very large Lists. 
-
- * @author G. Cope
-
- *
-
- */
 package UserProfile;
 import java.util.*;
 import java.util.List;
