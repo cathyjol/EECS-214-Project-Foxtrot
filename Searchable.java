@@ -1,17 +1,4 @@
 
-/**
-
- * Interface to search an underlying inventory of items and return a collection of found items. 
-
- * @author G. Cope
-
- *
-
- * @param <E> The type of items to be found.
-
- * @param <V> The type of items to be searched
-
- */
 package UserProfile; 
 
 import java.util.Collection;
